@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary: #22c55e;
+  --primary-dark: #16a34a;
+}
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.gradient-bg {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
+  background-size: cover;
+  background-position: center;
+}
+
+.text-gradient {
+  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hover-scale {
+  transition: transform 0.3s ease-in-out;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+.service-card {
+  @apply bg-white/10 backdrop-blur-lg rounded-xl p-6 border border-white/20 hover:border-green-500/50 transition-all duration-300;
+}
+
+.nav-link {
+  @apply text-gray-600 hover:text-green-600 transition-colors duration-200;
+}
+
+.btn-primary {
+  @apply bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700 transition-colors duration-200 flex items-center gap-2;
+}
+
+.btn-secondary {
+  @apply border border-green-600 text-green-600 px-6 py-3 rounded-full hover:bg-green-600 hover:text-white transition-colors duration-200 flex items-center gap-2;
+}
