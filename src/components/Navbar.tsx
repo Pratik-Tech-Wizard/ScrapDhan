@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Recycle, Menu, X, Sun, Moon, User } from 'lucide-react';
+import logo from '../../public/ScrapDhan-removebg-preview.png';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +24,7 @@ const Navbar = () => {
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
-              <Recycle className="h-8 w-8 text-green-600" />
+            <img src={logo} alt="Site Logo" className="w-11"/>
               <span className="text-2xl font-bold text-gradient">ScrapDhan</span>
             </Link>
           </div>
