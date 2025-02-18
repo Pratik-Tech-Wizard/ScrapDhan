@@ -2,6 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Truck, Scale, Banknote, MapPin, Recycle, Phone } from 'lucide-react';
 import ServiceCard from '../components/ServiceCard';
+import ScrapTypeGrid from '../components/ScraptypeGrid';
+import RateList from '../components/RateList';
 
 const Home = () => {
   return (
@@ -38,8 +40,19 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Services Section */}
+      {/* Scrap Types Section */}
       <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-4">What would you like to sell?</h2>
+            <p className="text-xl text-gray-600">Choose from our wide range of recyclable categories</p>
+          </div>
+          <ScrapTypeGrid />
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">Our Services</h2>
@@ -63,6 +76,17 @@ const Home = () => {
               description="Contributing to circular economy"
             />
           </div>
+        </div>
+      </section>
+
+      {/* Rate List Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-4">Current Scrap Rates</h2>
+            <p className="text-xl text-gray-600 mb-8">Get the best prices for your recyclables</p>
+          </div>
+          <RateList />
         </div>
       </section>
 
