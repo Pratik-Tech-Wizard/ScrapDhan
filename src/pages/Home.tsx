@@ -2,10 +2,17 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Truck, Scale, Banknote, MapPin, Recycle, Phone } from 'lucide-react';
 import ServiceCard from '../components/ServiceCard';
-import ScrapTypeGrid from '../components/ScraptypeGrid';
+import ScrapTypeGrid from '../components/ScrapTypeGrid';
 import RateList from '../components/RateList';
+import BlurText from "../components/BlurText";
+import Carousel from '../components/Carousel';
 
 const Home = () => {
+
+  const handleAnimationComplete = () => {
+    console.log('Animation completed');
+  };
+
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
@@ -16,25 +23,41 @@ const Home = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-3xl"
+            className="flex items-center gap-8"
           >
-            <h1 className="text-6xl font-bold text-white mb-6">
-              Got <span className="text-green-500">scrap</span>?<br />
-              Sell it to us.
-            </h1>
-            <p className="text-xl text-gray-200 mb-8">
-              Transform your waste into wealth with our AI-powered scrap management platform.
-              Get the best prices and contribute to a sustainable future.
-            </p>
-            <div className="flex gap-4">
-              <button className="btn-primary">
-                Schedule Pickup
-                <ArrowRight className="h-5 w-5" />
-              </button>
-              <button className="btn-secondary">
-                Check Rates
-                <Scale className="h-5 w-5" />
-              </button>
+            <div className="w-1/2">
+              <BlurText
+                text="Got Scrap? Sell it to us"
+                delay={150}
+                animateBy="words"
+                direction="top"
+                onAnimationComplete={handleAnimationComplete}
+                className="text-5xl mb-8 text-white"
+              />
+              <p className="text-xl text-gray-200 mb-8">
+                Transform your waste into wealth with our AI-powered scrap management platform.
+                Get the best prices and contribute to a sustainable future.
+              </p>
+              <div className="flex gap-4">
+                <button className="btn-primary">
+                  Schedule Pickup
+                  <ArrowRight className="h-5 w-5" />
+                </button>
+                <button className="btn-secondary">
+                  Check Rates
+                  <Scale className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+            <div className="w-1/2 h-full flex justify-center items-center">
+              <Carousel
+                baseWidth={300}
+                autoplay={true}
+                autoplayDelay={3000}
+                pauseOnHover={true}
+                loop={true}
+                round={false}
+              />
             </div>
           </motion.div>
         </div>
