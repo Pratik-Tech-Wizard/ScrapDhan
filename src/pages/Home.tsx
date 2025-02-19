@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Truck, Scale, Banknote, MapPin, Recycle, Phone } from 'lucide-react';
 import ServiceCard from '../components/ServiceCard';
@@ -8,9 +9,17 @@ import BlurText from "../components/BlurText";
 import Carousel from '../components/Carousel';
 
 const Home = () => {
+  const navigate = useNavigate();
 
   const handleAnimationComplete = () => {
     console.log('Animation completed');
+  };
+
+  const handleScrollToRates = () => {
+    const rateListSection = document.querySelector('#rate-list-section');
+    if (rateListSection) {
+      rateListSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -39,11 +48,11 @@ const Home = () => {
                 Get the best prices and contribute to a sustainable future.
               </p>
               <div className="flex gap-4">
-                <button className="btn-primary">
+                <button className="btn-primary" onClick={() => navigate('/sell')}>
                   Schedule Pickup
                   <ArrowRight className="h-5 w-5" />
                 </button>
-                <button className="btn-secondary">
+                <button className="btn-secondary" onClick={handleScrollToRates}>
                   Check Rates
                   <Scale className="h-5 w-5" />
                 </button>
@@ -103,7 +112,7 @@ const Home = () => {
       </section>
 
       {/* Rate List Section */}
-      <section className="py-20 bg-gray-50">
+      <section id="rate-list-section" className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">Current Scrap Rates</h2>
