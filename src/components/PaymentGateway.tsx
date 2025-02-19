@@ -7,7 +7,13 @@ declare global {
   }
 }
 
-const PaymentGateway = () => {
+interface PaymentGatewayProps{
+  amount: number;
+  onSuccess: ()=> void;
+  onError: ()=> void;
+}
+
+const PaymentGateway: React.FC<PaymentGatewayProps> = ({ amount, onSuccess, onError }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +23,7 @@ const PaymentGateway = () => {
       script.onload = () => {
         const options = {
           key: 'rzp_test_tA1GoWxiVdtmfE', // Replace with your Razorpay key
-          amount: 50000, // Amount in paise (50000 paise = 500 INR)
+          amount: amount * 100, // Amount in paise (50000 paise = 500 INR)
           currency: 'INR',
           name: 'ScrapDhan',
           description: 'Auction Payment',
@@ -46,7 +52,7 @@ const PaymentGateway = () => {
     };
 
     loadRazorpay();
-  }, [navigate]);
+  }, [amount, navigate, onSuccess, onError]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Upload, Plus, Calendar, Clock, FileText } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
+import PaymentGateway from '../components/PaymentGateway';
 
 const CreateAuction = () => {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ const CreateAuction = () => {
   const [endDate, setEndDate] = useState('');
   const [endTime, setEndTime] = useState('');
   const [images, setImages] = useState<File[]>([]);
+  const [showPaymentGateway, setShowPaymentGateway] = useState(false);
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
@@ -27,8 +29,27 @@ const CreateAuction = () => {
   const handleSubmit = () => {
     // Handle form submission logic
     console.log('Auction created');
-    navigate('/payment-gateway');
+    setShowPaymentGateway(true);
   };
+
+  const handlePaymentSuccess = () => {
+    console.log('Payment successful');
+    navigate('/auctions');
+  };
+
+  const handlePaymentError = () => {
+    console.log('Payment failed');
+  };
+
+  if (showPaymentGateway) {
+    return (
+      <PaymentGateway
+        amount={parseInt(startingBid)}
+        onSuccess={handlePaymentSuccess}
+        onError={handlePaymentError}
+      />
+    );
+  }
 
   return (
     <div className="min-h-screen pt-20 bg-gray-50 dark:bg-gray-900">
@@ -39,42 +60,68 @@ const CreateAuction = () => {
           className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8"
         >
           <h1 className="text-4xl font-bold mb-8 text-center dark:text-white">Create Auction</h1>
+          <form onSubmit={handleSubmit} className="space-y-6"></form>
           <div className="space-y-6">
-            <input
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Auction Title"
-              className="w-full rounded-lg border-gray-300 focus:ring-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-            />
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Description"
-              className="w-full rounded-lg border-gray-300 focus:ring-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              rows={4}
-            />
-            <input
-              type="text"
-              value={company}
-              onChange={(e) => setCompany(e.target.value)}
-              placeholder="Company Name"
-              className="w-full rounded-lg border-gray-300 focus:ring-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-            />
-            <input
-              type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-              placeholder="Location"
-              className="w-full rounded-lg border-gray-300 focus:ring-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-            />
-            <input
-              type="number"
-              value={startingBid}
-              onChange={(e) => setStartingBid(e.target.value)}
-              placeholder="Starting Bid (₹)"
-              className="w-full rounded-lg border-gray-300 focus:ring-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-            />
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Auction Title
+              </label>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                placeholder="Auction Title"
+                className="w-full rounded-lg border-gray-300 focus:ring-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Description
+              </label>
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Description"
+                className="w-full rounded-lg border-gray-300 focus:ring-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                rows={4}
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Company Name
+              </label>
+              <input
+                type="text"
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+                placeholder="Company Name"
+                className="w-full rounded-lg border-gray-300 focus:ring-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Location
+              </label>
+              <input
+                type="text"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                placeholder="Location"
+                className="w-full rounded-lg border-gray-300 focus:ring-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Starting Bid (₹)
+              </label>
+              <input
+                type="number"
+                value={startingBid}
+                onChange={(e) => setStartingBid(e.target.value)}
+                placeholder="Starting Bid (₹)"
+                className="w-full rounded-lg border-gray-300 focus:ring-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              />
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -125,6 +172,7 @@ const CreateAuction = () => {
             )}
             <button
               onClick={handleSubmit}
+              type="submit"
               className="w-full bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors"
             >
               Create Auction
