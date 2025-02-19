@@ -58,7 +58,7 @@ const Navbar = () => {
             </button>
             <Link to="/auth" className="btn-primary dark:bg-green-500 dark:hover:bg-green-600">
               <User className="h-5 w-5" />
-              <span>Sign In</span>
+              <span>Sign In / Sign Up</span>
             </Link>
           </div>
 
