@@ -1,8 +1,29 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
 
 const Contact = () => {
+  useEffect(() => {
+    const initMap = () => {
+      const map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
+        center: { lat: 20.2961, lng: 85.8245 }, // Coordinates for Bhubaneswar, Odisha
+        zoom: 15,
+      });
+
+      new google.maps.Marker({
+        position: { lat: 20.2961, lng: 85.8245 },
+        map,
+        title: 'ScrapDhan',
+      });
+    };
+    
+    if (window.google) {
+      initMap();
+    } else {
+      (window as any).initMap = initMap;
+    }
+  }, []);
+
   return (
     <div className="min-h-screen pt-20 bg-gray-50 dark:bg-gray-900">
       <div className="container mx-auto px-4 py-12">
@@ -75,8 +96,8 @@ const Contact = () => {
                 <div>
                   <h3 className="text-lg font-semibold mb-2 dark:text-white">Our Location</h3>
                   <p className="text-gray-600 dark:text-gray-300">
-                    123 Green Street, Eco City<br />
-                    Sustainable State, 12345
+                    ITER<br />
+                    Bhubaneswar, Odisha, 751030
                   </p>
                 </div>
               </div>
@@ -122,7 +143,7 @@ const Contact = () => {
             animate={{ opacity: 1, y: 0 }}
             className="mt-12 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 h-96"
           >
-            {/* Google Maps integration will go here */}
+            <div id="map" className="w-full h-full"></div>
           </motion.div>
         </div>
       </div>
