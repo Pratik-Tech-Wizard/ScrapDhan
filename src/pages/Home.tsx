@@ -34,7 +34,7 @@ const Home = () => {
             transition={{ duration: 0.8 }}
             className="flex items-center gap-8"
           >
-            <div className="w-1/2">
+            <div className="w-2/3">
               <BlurText
                 text="Got Scrap? Sell it to us"
                 delay={150}

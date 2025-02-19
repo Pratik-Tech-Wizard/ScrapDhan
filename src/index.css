@@ -16,6 +16,7 @@
 body {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 1.1rem;
+<<<<<<< HEAD
   background-color: var(--background-light);
   color: var(--text-light);
 }
@@ -23,6 +24,8 @@ body {
 body.dark {
   background-color: var(--background-dark);
   color: var(--text-dark);
+=======
+>>>>>>> 92c7a10c63158a6830740450278b7ec40200dbe8
 }
 
 .gradient-bg {
