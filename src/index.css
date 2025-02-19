@@ -7,10 +7,22 @@
 :root {
   --primary: #22c55e;
   --primary-dark: #16a34a;
+  --background-light: #ffffff;
+  --background-dark: #121212;
+  --text-light: #000000;
+  --text-dark: #ffffff;
 }
 
 body {
   font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.1rem;
+  background-color: var(--background-light);
+  color: var(--text-light);
+}
+
+body.dark {
+  background-color: var(--background-dark);
+  color: var(--text-dark);
 }
 
 .gradient-bg {
@@ -41,10 +53,22 @@ body {
   @apply text-gray-600 hover:text-green-600 transition-colors duration-200;
 }
 
+body.dark .nav-link {
+  @apply text-gray-300 hover:text-green-400;
+}
+
 .btn-primary {
   @apply bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-700 transition-colors duration-200 flex items-center gap-2;
 }
 
+body.dark .btn-primary {
+  @apply bg-green-500 text-black hover:bg-green-600;
+}
+
 .btn-secondary {
   @apply border border-green-600 text-green-600 px-6 py-3 rounded-full hover:bg-green-600 hover:text-white transition-colors duration-200 flex items-center gap-2;
+}
+
+body.dark .btn-secondary {
+  @apply border-green-500 text-green-500 hover:bg-green-500 hover:text-black;
 }

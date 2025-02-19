@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Recycle, Menu, X, Sun, Moon, User } from 'lucide-react';
+import { Recycle, Menu, X, Sun, Moon, User, Bell } from 'lucide-react';
 import logo from '../../public/ScrapDhan-removebg-preview.png';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [notificationCount, setNotificationCount] = useState(3);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -41,6 +42,14 @@ const Navbar = () => {
             <Link to="/scrap-types" className="nav-link dark:text-gray-300">Scrap Types</Link>
             <Link to="/auction" className="nav-link dark:text-gray-300">Auction</Link>
             <Link to="/contact" className="nav-link dark:text-gray-300">Contact</Link>
+            <Link to="/notifications" className="relative">
+              <Bell className="h-6 w-6 text-gray-600 dark:text-gray-300" />
+              {notificationCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {notificationCount}
+                </span>
+              )}
+            </Link>
             <button 
               onClick={toggleDarkMode}
               className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
@@ -55,6 +64,14 @@ const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-4">
+          <Link to="/notifications" className="relative">
+              <Bell className="h-6 w-6 text-gray-600 dark:text-gray-300" />
+              {notificationCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {notificationCount}
+                </span>
+              )}
+            </Link>
             <button 
               onClick={toggleDarkMode}
               className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
