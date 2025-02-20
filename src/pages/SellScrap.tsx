@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Building2, Home, Upload, Plus, Calendar, Clock, FileText } from 'lucide-react';
+import { Building2, Home, Upload, Plus, Calendar, Clock, FileText, X } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 
 type ScrapType = 'household' | 'industry' | null;
@@ -42,6 +42,15 @@ const SellScrap = () => {
     const newCategories = [...categories];
     newCategories[index] = { ...newCategories[index], [field]: value };
     setCategories(newCategories);
+  };
+
+  const handleRemoveImage = (index: number) => {
+    const newImages = images.filter((_, i) => i !== index);
+    setImages(newImages);
+  }
+
+  const handleRemoveDocument = () => {
+    setLegalDocument(null);
   };
 
   const timeSlots = ['9:00-11:00', '11:00-13:00', '14:00-16:00', '16:00-18:00'];
@@ -106,7 +115,9 @@ const SellScrap = () => {
               <div {...getRootProps()} className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-green-500 transition-colors">
                 <input {...getInputProps()} />
                 <Upload className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-                <p className="text-gray-600">Drag & drop images here, or click to select files</p>
+                <p className="text-gray-600">Drag & drop images here, or click to select files <br />
+                  .png, .jpg, .jpeg format
+                </p>
               </div>
 
               {images.length > 0 && (
@@ -118,6 +129,12 @@ const SellScrap = () => {
                         alt={`Scrap ${index + 1}`}
                         className="w-full h-full object-cover"
                       />
+                      <button
+                        onClick={() => handleRemoveImage(index)}
+                        className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full"
+                      >
+                        <X className="w-5 h-5" />
+                      </button>
                     </div>
                   ))}
                 </div>
@@ -216,7 +233,7 @@ const SellScrap = () => {
               <div {...getRootProps()} className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-green-500 transition-colors">
                 <input {...getInputProps()} />
                 <Upload className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-                <p className="text-gray-600">Upload scrap images</p>
+                <p className="text-gray-600">Upload scrap images <br />.png, .jpg, .jpeg format</p>
               </div>
 
               {images.length > 0 && (
@@ -228,6 +245,12 @@ const SellScrap = () => {
                         alt={`Scrap ${index + 1}`}
                         className="w-full h-full object-cover"
                       />
+                      <button
+                        onClick={() => handleRemoveImage(index)}
+                        className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full"
+                      >
+                        <X className="w-5 h-5" />
+                      </button>
                     </div>
                   ))}
                 </div>
@@ -294,8 +317,19 @@ const SellScrap = () => {
                 />
                 <label htmlFor="legal-doc" className="cursor-pointer">
                   <FileText className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-                  <p className="text-gray-600">Upload Legal Document/Authorization</p>
+                  <p className="text-gray-600">Upload Legal Document/Authorization <br />.pdf, .doc, .docx format</p>
                 </label>
+                {legalDocument && (
+                  <div className="relative mt-4">
+                    <p className="text-gray-600">{legalDocument.name}</p>
+                    <button
+                      onClick={handleRemoveDocument}
+                      className="absolute top-0 right-0 bg-red-500 text-white p-1 rounded-full"
+                    >
+                      <X className="w-5 h-5" />
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           )}

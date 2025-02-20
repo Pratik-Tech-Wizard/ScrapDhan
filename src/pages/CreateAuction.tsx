@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Upload, Plus, Calendar, Clock, FileText } from 'lucide-react';
+import { Upload, Plus, Calendar, Clock, FileText, X } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
 import PaymentGateway from '../components/PaymentGateway';
 
@@ -25,6 +25,11 @@ const CreateAuction = () => {
       setImages([...images, ...acceptedFiles]);
     }
   });
+
+  const handleRemoveImage = (index: number) => {
+    const newImages = images.filter((_, i) => i !== index);
+    setImages(newImages);
+  }
 
   const handleSubmit = () => {
     // Handle form submission logic
@@ -166,6 +171,12 @@ const CreateAuction = () => {
                       alt={`Auction Image ${index + 1}`}
                       className="w-full h-full object-cover"
                     />
+                    <button
+                        onClick={() => handleRemoveImage(index)}
+                        className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full"
+                      >
+                        <X className="w-5 h-5" />
+                      </button>
                   </div>
                 ))}
               </div>
