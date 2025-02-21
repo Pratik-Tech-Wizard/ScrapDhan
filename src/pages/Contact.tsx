@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, Phone, Mail, Clock, Send } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send, Lightbulb, Users, Info } from 'lucide-react';
 
 const Contact = () => {
   useEffect(() => {
@@ -83,6 +83,28 @@ const Contact = () => {
                   Send Message
                 </button>
               </form>
+
+              <div className="mt-8 space-y-6">
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex items-start space-x-4">
+                  <Info className="w-6 h-6 text-green-600 flex-shrink-0" />
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2 dark:text-white">About Us</h3>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      <a href="/about" className="text-green-600 hover:text-green-700">Learn more about ScrapDhan</a>
+                    </p>
+                  </div>
+                </div>
+
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex items-start space-x-4">
+                  <Users className="w-6 h-6 text-green-600 flex-shrink-0" />
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2 dark:text-white">Our Team</h3>
+                    <p className="text-gray-600 dark:text-gray-300">
+                      <a href="/team" className="text-green-600 hover:text-green-700">Meet the team behind ScrapDhan</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
             </motion.div>
 
             {/* Contact Information */}
@@ -131,6 +153,16 @@ const Contact = () => {
                   <p className="text-gray-600 dark:text-gray-300">
                     Monday - Saturday: 9:00 AM - 6:00 PM<br />
                     Sunday: Closed
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex items-start space-x-4">
+                <Lightbulb className="w-6 h-6 text-green-600 flex-shrink-0" />
+                <div>
+                  <h3 className="text-lg font-semibold mb-2 dark:text-white">Future Innovations</h3>
+                  <p className="text-gray-600 dark:text-gray-300">
+                    <a href="/innovations" className="text-green-600 hover:text-green-700">Discover our future plans</a>
                   </p>
                 </div>
               </div>
