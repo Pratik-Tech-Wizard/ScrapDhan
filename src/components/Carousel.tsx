@@ -1,38 +1,26 @@
 import { useEffect, useState, useRef } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
-// replace icons with your own if needed
-import { FiCircle, FiCode, FiFileText, FiLayers, FiLayout, } from "react-icons/fi";
 
 const DEFAULT_ITEMS = [
   {
-    title: "Text Animations",
-    description: "Cool text animations for your projects.",
     id: 1,
-    icon: <FiFileText className="h-[16px] w-[16px] text-white" />,
+    image: '/public/image1.jpg',
   },
   {
-    title: "Animations",
-    description: "Smooth animations for your projects.",
     id: 2,
-    icon: <FiCircle className="h-[16px] w-[16px] text-white" />,
+    image: '/public/image2.jpg',
   },
   {
-    title: "Components",
-    description: "Reusable components for your projects.",
     id: 3,
-    icon: <FiLayers className="h-[16px] w-[16px] text-white" />,
+    image: '/public/image3.jpg',
   },
   {
-    title: "Backgrounds",
-    description: "Beautiful backgrounds and patterns for your projects.",
     id: 4,
-    icon: <FiLayout className="h-[16px] w-[16px] text-white" />,
+    image: '/public/image4.jpg',
   },
   {
-    title: "Common UI",
-    description: "Common UI components are coming soon!",
     id: 5,
-    icon: <FiCode className="h-[16px] w-[16px] text-white" />,
+    image: '/public/image5.jpg',
   },
 ];
 
@@ -43,7 +31,7 @@ const SPRING_OPTIONS = { type: "spring", stiffness: 300, damping: 30 };
 
 export default function Carousel({
   items = DEFAULT_ITEMS,
-  baseWidth = 300,
+  baseWidth = 600,
   autoplay = false,
   autoplayDelay = 3000,
   pauseOnHover = false,
@@ -190,17 +178,11 @@ export default function Carousel({
               }}
               transition={effectiveTransition}
             >
-              <div className={`${round ? "p-0 m-0" : "mb-4 p-5"}`}>
-                <span className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#22c55e]">
-                  {item.icon}
-                </span>
-              </div>
-              <div className="p-5">
-                <div className="mb-1 font-black text-lg text-white">
-                  {item.title}
-                </div>
-                <p className="text-sm text-white">{item.description}</p>
-              </div>
+              <img
+                src={item.image}
+                alt={`Carousel item ${index + 1}`}
+                className="w-full h-full object-cover"
+              />
             </motion.div>
           );
         })}

@@ -36,7 +36,7 @@ const Home = () => {
           >
             <div className="w-2/3">
               <BlurText
-                text="Got Scrap? Sell it to us"
+                text="Turn Junk Into Money ♻️⚙️"
                 delay={150}
                 animateBy="words"
                 direction="top"
@@ -129,7 +129,8 @@ const Home = () => {
           <p className="text-xl mb-12 max-w-2xl mx-auto">
             Join thousands of users who are making a difference while earning from their waste.
           </p>
-          <button className="bg-white text-green-600 px-8 py-4 rounded-full hover:bg-gray-100 transition-colors inline-flex items-center gap-2">
+          <button className="bg-white text-green-600 px-8 py-4 rounded-full hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
+          onClick={() => navigate('/contact')}>
             <Phone className="h-5 w-5" />
             Contact Us Now
           </button>
