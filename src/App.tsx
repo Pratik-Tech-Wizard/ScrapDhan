@@ -12,6 +12,9 @@ import Footer from './components/Footer';
 import Chatbot from './components/Chatbot';
 import PaymentGateway from './components/PaymentGateway';
 import AuthPage from './pages/AuthPage';
+import AboutUs from './pages/AboutUs';
+import OurTeam from './pages/OurTeam';
+// import ScrapIdentifier from './components/ScrapIdentifier';
 
 function App() {
   return (
@@ -28,6 +31,9 @@ function App() {
           <Route path="/notifications" element={<Notifications />} />
           <Route path="/payment-gateway" element={<PaymentGateway amount={100} onSuccess={() => console.log('Payment Successful')} onError={() => console.log('Payment Failed')} />} />
           <Route path="/auth" element={<AuthPage />} />
+          <Route path="/about" element={<AboutUs />} />
+          <Route path="/team" element={<OurTeam />} />
+          {/* <Route path="/scrap-identifier" element={<ScrapIdentifier />} /> */}
         </Routes>
         <Footer />
         <Chatbot />
