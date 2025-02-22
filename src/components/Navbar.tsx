@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Recycle, Menu, X, Sun, Moon, User, Bell } from 'lucide-react';
-import logo from '../../public/ScrapDhan-removebg-preview.png';
+import logo from '/ScrapDhan-removebg-preview.png';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);

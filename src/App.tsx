@@ -18,9 +18,13 @@ import Rewards from './pages/Rewards';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsConditions from './pages/TermsConditions';
 import FAQ from './pages/FAQ';
+import { useTranslation } from 'react-i18next';
+import LanguageSwitcher from './components/LanguageSwitcher';
+
 // import ScrapIdentifier from './components/ScrapIdentifier';
 
-function App() {
+const App: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <Router>
       <div className="min-h-screen bg-white dark:bg-gray-900">
@@ -39,12 +43,19 @@ function App() {
           <Route path="/team" element={<OurTeam />} />
           <Route path="/rewards" element={<Rewards />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/terms-conditions" element={<TermsConditions />} />
-        <Route path="/faq" element={<FAQ />} />
+          <Route path="/terms-conditions" element={<TermsConditions />} />
+          <Route path="/faq" element={<FAQ />} />
+
+
           {/* <Route path="/scrap-identifier" element={<ScrapIdentifier />} /> */}
         </Routes>
         <Footer />
         <Chatbot />
+      </div>
+      <div className="App">
+        <header className="App-header">
+          <LanguageSwitcher />
+        </header>
       </div>
     </Router>
   );

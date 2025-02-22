@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { ArrowRight, Truck, Scale, Banknote, MapPin, Recycle, Phone } from 'lucide-react';
+import { ArrowRight, Truck, Scale, Recycle, Phone } from 'lucide-react';
 import ServiceCard from '../components/ServiceCard';
 import ScrapTypeGrid from '../components/ScrapTypeGrid';
 import RateList from '../components/RateList';
 import BlurText from "../components/BlurText";
 import Carousel from '../components/Carousel';
+import { db } from '../firebaseConfig';
+import { collection, addDoc } from 'firebase/firestore';
 
 const Home = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
 
   const handleAnimationComplete = () => {
     console.log('Animation completed');
@@ -19,6 +26,23 @@ const Home = () => {
     const rateListSection = document.querySelector('#rate-list-section');
     if (rateListSection) {
       rateListSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      await addDoc(collection(db, 'userDetails'), {
+        name,
+        email,
+        message,
+      });
+      alert('Details submitted successfully!');
+      setName('');
+      setEmail('');
+      setMessage('');
+    } catch (error) {
+      console.error('Error adding document: ', error);
     }
   };
 
@@ -49,11 +73,11 @@ const Home = () => {
               </p>
               <div className="flex gap-4">
                 <button className="btn-primary" onClick={() => navigate('/sell')}>
-                  Schedule Pickup
+                  {t('schedulePickup')}
                   <ArrowRight className="h-5 w-5" />
                 </button>
                 <button className="btn-secondary" onClick={handleScrollToRates}>
-                  Check Rates
+                  {t('checkRates')}
                   <Scale className="h-5 w-5" />
                 </button>
               </div>
@@ -72,12 +96,68 @@ const Home = () => {
         </div>
       </section>
 
+      {/* User Details Form Section */}
+      <section className="py-20 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-4">{t('enterDetails')}</h2>
+            <p className="text-xl text-gray-600">{t('weWouldLoveToHearFromYou')}</p>
+          </div>
+          <form onSubmit={handleSubmit} className="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-lg">
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
+                {t('name')}
+              </label>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-green-500"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                {t('email')}
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-green-500"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="message">
+                {t('message')}
+              </label>
+              <textarea
+                id="message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring focus:border-green-500"
+                required
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors"
+            >
+              {t('submit')}
+            </button>
+          </form>
+        </div>
+      </section>
+
       {/* Scrap Types Section */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">What would you like to sell?</h2>
-            <p className="text-xl text-gray-600">Choose from our wide range of recyclable categories</p>
+            <h2 className="text-4xl font-bold mb-4">{t('whatWouldYouLikeToSell')}</h2>
+            <p className="text-xl text-gray-600">{t('chooseFromOurWideRange')}</p>
           </div>
           <ScrapTypeGrid />
         </div>
@@ -87,25 +167,25 @@ const Home = () => {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Our Services</h2>
-            <p className="text-xl text-gray-600">Sustainable solutions with ease</p>
+            <h2 className="text-4xl font-bold mb-4">{t('ourServices')}</h2>
+            <p className="text-xl text-gray-600">{t('sustainableSolutions')}</p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <ServiceCard
               icon={<Truck className="w-12 h-12" />}
-              title="Doorstep Pickup"
-              description="Free pickup service for 40+ types of recyclables"
+              title={t('doorstepPickup')}
+              description={t('freePickupService')}
             />
             <ServiceCard
               icon={<Scale className="w-12 h-12" />}
-              title="Best Prices"
-              description="AI-powered pricing for maximum value"
+              title={t('bestPrices')}
+              description={t('aiPoweredPricing')}
             />
             <ServiceCard
               icon={<Recycle className="w-12 h-12" />}
-              title="Sustainable Impact"
-              description="Contributing to circular economy"
+              title={t('sustainableImpact')}
+              description={t('contributingToCircularEconomy')}
             />
           </div>
         </div>
@@ -115,8 +195,8 @@ const Home = () => {
       <section id="rate-list-section" className="py-20 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Current Scrap Rates</h2>
-            <p className="text-xl text-gray-600 mb-8">Get the best prices for your recyclables</p>
+            <h2 className="text-4xl font-bold mb-4">{t('currentScrapRates')}</h2>
+            <p className="text-xl text-gray-600 mb-8">{t('getTheBestPrices')}</p>
           </div>
           <RateList />
         </div>
@@ -125,14 +205,14 @@ const Home = () => {
       {/* CTA Section */}
       <section className="py-20 bg-green-600 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold mb-8">Ready to get started?</h2>
+          <h2 className="text-4xl font-bold mb-8">{t('readyToGetStarted')}</h2>
           <p className="text-xl mb-12 max-w-2xl mx-auto">
-            Join thousands of users who are making a difference while earning from their waste.
+            {t('joinThousandsOfUsers')}
           </p>
           <button className="bg-white text-green-600 px-8 py-4 rounded-full hover:bg-gray-100 transition-colors inline-flex items-center gap-2"
           onClick={() => navigate('/contact')}>
             <Phone className="h-5 w-5" />
-            Contact Us Now
+            {t('contactUsNow')}
           </button>
         </div>
       </section>

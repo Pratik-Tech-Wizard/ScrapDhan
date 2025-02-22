@@ -4,23 +4,23 @@ import { motion, useMotionValue, useTransform } from "framer-motion";
 const DEFAULT_ITEMS = [
   {
     id: 1,
-    image: '/public/image1.jpg',
+    image: '/image1.jpg',
   },
   {
     id: 2,
-    image: '/public/image2.jpg',
+    image: '/image2.jpg',
   },
   {
     id: 3,
-    image: '/public/image3.jpg',
+    image: '/image3.jpg',
   },
   {
     id: 4,
-    image: '/public/image4.jpg',
+    image: '/image4.jpg',
   },
   {
     id: 5,
-    image: '/public/image5.jpg',
+    image: '/image5.jpg',
   },
 ];
 
