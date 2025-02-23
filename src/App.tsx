@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
+import LandingPage from './pages/LandingPage';
 import SellScrap from './pages/SellScrap';
 import ScrapTypes from './pages/ScrapTypes';
 import Auction from './pages/Auction';
@@ -30,7 +31,8 @@ const App: React.FC = () => {
       <div className="min-h-screen bg-white dark:bg-gray-900">
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/sell" element={<SellScrap />} />
           <Route path="/scrap-types" element={<ScrapTypes />} />
           <Route path="/auction" element={<Auction />} />
@@ -45,7 +47,6 @@ const App: React.FC = () => {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-conditions" element={<TermsConditions />} />
           <Route path="/faq" element={<FAQ />} />
-
 
           {/* <Route path="/scrap-identifier" element={<ScrapIdentifier />} /> */}
         </Routes>
