@@ -7,13 +7,27 @@ declare global {
   }
 }
 
+interface AuctionItem {
+  id: number;
+  title: string;
+  description: string;
+  company: string;
+  location: string;
+  currentBid: number;
+  dateLeft: string;
+  timeLeft: string;
+  image: string;
+  category: string;
+}
+
 interface PaymentGatewayProps{
   amount: number;
+  item: AuctionItem;
   onSuccess: ()=> void;
   onError: ()=> void;
 }
 
-const PaymentGateway: React.FC<PaymentGatewayProps> = ({ amount, onSuccess, onError }) => {
+const PaymentGateway: React.FC<PaymentGatewayProps> = ({ amount, item, onSuccess, onError }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,11 +40,10 @@ const PaymentGateway: React.FC<PaymentGatewayProps> = ({ amount, onSuccess, onEr
           amount: amount * 100, // Amount in paise (50000 paise = 500 INR)
           currency: 'INR',
           name: 'ScrapDhan',
-          description: 'Auction Payment',
+          description: `Payment for ${item.title}`,
           image: '/ScrapDhan-removebg-preview.png', // Replace with your logo URL
           handler: function () {
-            alert('Payment successful');
-            navigate('/auctions');
+            onSuccess();
           },
           prefill: {
             name: 'John Doe',
@@ -40,6 +53,11 @@ const PaymentGateway: React.FC<PaymentGatewayProps> = ({ amount, onSuccess, onEr
           theme: {
             color: '#3399cc',
           },
+          modal: {
+            ondismiss: function () {
+              onError();
+            }
+          }
         };
 
         const paymentObject = new window.Razorpay(options);

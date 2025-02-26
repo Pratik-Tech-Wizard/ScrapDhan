@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Upload, Plus, Calendar, Clock, FileText, X } from 'lucide-react';
 import { useDropzone } from 'react-dropzone';
-import PaymentGateway from '../components/PaymentGateway';
+import { db, storage } from '../firebaseConfig';
+import { collection, addDoc } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const CreateAuction = () => {
   const navigate = useNavigate();
@@ -11,11 +13,15 @@ const CreateAuction = () => {
   const [description, setDescription] = useState('');
   const [company, setCompany] = useState('');
   const [location, setLocation] = useState('');
-  const [startingBid, setStartingBid] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [endTime, setEndTime] = useState('');
+  const [currentBid, setCurrentBid] = useState<number | string>('');
+  const [dateLeft, setDateLeft] = useState('');
+  const [timeLeft, setTimeLeft] = useState('');
   const [images, setImages] = useState<File[]>([]);
-  const [showPaymentGateway, setShowPaymentGateway] = useState(false);
+  const [category, setCategory] = useState('');
+  const [contactNumber, setContactNumber] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [loading, setLoading] = useState(false); 
+  
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
@@ -31,30 +37,57 @@ const CreateAuction = () => {
     setImages(newImages);
   }
 
-  const handleSubmit = () => {
-    // Handle form submission logic
-    console.log('Auction created');
-    setShowPaymentGateway(true);
-  };
 
-  const handlePaymentSuccess = () => {
-    console.log('Payment successful');
-    navigate('/auctions');
-  };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true); // Set loading to true when form is submitted 
 
-  const handlePaymentError = () => {
-    console.log('Payment failed');
-  };
+    try {
+      // Upload images to Firebase Storage and get URLs
+      const imageUrls = await Promise.all(images.map(async (file) => {
+        const storageRef = ref(storage, `auctionImages/${file.name}`);
+        await uploadBytes(storageRef, file);
+        return await getDownloadURL(storageRef);
+      }));
 
-  if (showPaymentGateway) {
-    return (
-      <PaymentGateway
-        amount={parseInt(startingBid)}
-        onSuccess={handlePaymentSuccess}
-        onError={handlePaymentError}
-      />
-    );
-  }
+      const newAuctionItem = {
+        title,
+        description,
+        company,
+        location,
+        currentBid,
+        dateLeft,
+        timeLeft,
+        images: imageUrls, // Convert File objects to URLs
+        category,
+        contactNumber
+      };
+
+      // Add new auction item to Firestore
+      const docRef = await addDoc(collection(db, "auctionItems"), newAuctionItem);
+      console.log("Document written with ID: ", docRef.id);
+
+      // Optionally, reset form after submission
+      setTitle('');
+      setDescription('');
+      setCompany('');
+      setLocation('');
+      setCurrentBid('0');
+      setDateLeft('');
+      setTimeLeft('');
+      setImages([]);
+      setCategory('');
+      setContactNumber('');
+      setSuccessMessage('Auction created successfully!');
+      setTimeout(() => {
+        navigate('/auction');
+      }, 2000);
+    } catch (error) {
+      console.error("Error adding document: ", error);
+    }finally {
+      setLoading(false); // Set loading to false after form submission is complete
+    }
+  };  
 
   return (
     <div className="min-h-screen pt-20 bg-gray-50 dark:bg-gray-900">
@@ -65,7 +98,7 @@ const CreateAuction = () => {
           className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8"
         >
           <h1 className="text-4xl font-bold mb-8 text-center dark:text-white">Create Auction</h1>
-          <form onSubmit={handleSubmit} className="space-y-6"></form>
+          <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -117,13 +150,40 @@ const CreateAuction = () => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Category
+              </label>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full rounded-lg border-gray-300 focus:ring-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              >
+                <option value="Metal">Metal</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Plastic">Plastic</option>
+                <option value="Paper">Paper</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 Starting Bid (₹)
               </label>
               <input
                 type="number"
-                value={startingBid}
-                onChange={(e) => setStartingBid(e.target.value)}
+                value={currentBid}
+                onChange={(e) => setCurrentBid(Number(e.target.value))}
                 placeholder="Starting Bid (₹)"
+                className="w-full rounded-lg border-gray-300 focus:ring-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Contact Number
+              </label>
+              <input
+                type="text"
+                value={contactNumber}
+                onChange={(e) => setContactNumber(e.target.value)}
+                placeholder="Contact Number"
                 className="w-full rounded-lg border-gray-300 focus:ring-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
               />
             </div>
@@ -136,8 +196,8 @@ const CreateAuction = () => {
                   <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                   <input
                     type="date"
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
+                    value={dateLeft}
+                    onChange={(e) => setDateLeft(e.target.value)}
                     className="pl-10 w-full rounded-lg border-gray-300 focus:ring-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   />
                 </div>
@@ -150,8 +210,8 @@ const CreateAuction = () => {
                   <Clock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                   <input
                     type="time"
-                    value={endTime}
-                    onChange={(e) => setEndTime(e.target.value)}
+                    value={timeLeft}
+                    onChange={(e) => setTimeLeft(e.target.value)}
                     className="pl-10 w-full rounded-lg border-gray-300 focus:ring-green-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                   />
                 </div>
@@ -182,13 +242,26 @@ const CreateAuction = () => {
               </div>
             )}
             <button
-              onClick={handleSubmit}
               type="submit"
               className="w-full bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition-colors"
+              disabled={loading} // Disable button when loading
             >
-              Create Auction
+              {loading ? 'Submitting...' : 'Submit Auction'}
+            </button>
+            <button
+                type="button"
+                onClick={() => navigate('/auction')}
+                className="w-full bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors mt-4"
+              >
+                Back
             </button>
           </div>
+        </form>
+        {successMessage && (
+            <div className="mt-4 p-4 bg-green-100 text-green-800 rounded-lg">
+              {successMessage}
+            </div>
+          )}
         </motion.div>
       </div>
     </div>
