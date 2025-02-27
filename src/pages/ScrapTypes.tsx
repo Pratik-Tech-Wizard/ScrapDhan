@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Newspaper, Wrench, Laptop, Package,
@@ -30,7 +31,7 @@ const scrapTypes: ScrapType[] = [
       "No food-contaminated paper",
       "Properly bundled or packed"
     ],
-    image: "https://images.unsplash.com/photo-1585944672394-4c58a015c1fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+    image: "./paper.jpg"
   },
   {
     id: 2,
@@ -44,13 +45,13 @@ const scrapTypes: ScrapType[] = [
       "Labels removed",
       "Crushed to save space"
     ],
-    image: "https://images.unsplash.com/photo-1605600659908-0ef719419d41?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+    image: "./plastic.jpg"
   },
   {
     id: 3,
     name: "Metal Scrap",
     icon: <Wrench className="w-8 h-8" />,
-    description: "Iron, aluminum, copper, and other metal materials",
+    description: "Iron, aluminum, copper, steel, brass and other metal materials",
     price: "₹35-400/kg",
     category: "Metal",
     acceptanceGuidelines: [
@@ -58,7 +59,7 @@ const scrapTypes: ScrapType[] = [
       "Free from non-metallic attachments",
       "No hazardous materials"
     ],
-    image: "https://images.unsplash.com/photo-1505649118510-a5d934d3ab8b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+    image: "./metal.jpg"
   },
   {
     id: 4,
@@ -80,6 +81,7 @@ const ScrapTypes = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [showVideo, setShowVideo] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen pt-20 bg-gray-50 dark:bg-gray-900">
@@ -181,7 +183,8 @@ const ScrapTypes = () => {
                       ))}
                     </ul>
                   </div>
-                  <button className="w-full flex items-center justify-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors">
+                  <button className="w-full flex items-center justify-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors"
+                  onClick={() => navigate('/sell')}>
                     Schedule Pickup
                     <ArrowRight className="w-4 h-4" />
                   </button>
@@ -195,7 +198,7 @@ const ScrapTypes = () => {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl p-8 text-white"
+            className="bg-gradient-to-r from-green-600 to-slate-700 rounded-xl p-8 text-white"
           >
             <Car className="w-16 h-16 mb-4" />
             <h2 className="text-2xl font-bold mb-4">Vehicle Scrapping</h2>
@@ -203,7 +206,7 @@ const ScrapTypes = () => {
               Professional end-of-life vehicle scrapping services with proper documentation
               and environmental compliance.
             </p>
-            <button className="bg-white text-blue-600 px-6 py-3 rounded-lg hover:bg-gray-100 transition-colors inline-flex items-center gap-2">
+            <button className="bg-white text-slate-800 px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors inline-flex items-center gap-2">
               Learn More
               <ArrowRight className="w-5 h-5" />
             </button>
@@ -212,7 +215,7 @@ const ScrapTypes = () => {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="bg-gradient-to-r from-purple-600 to-purple-700 rounded-xl p-8 text-white"
+            className="bg-gradient-to-r from-green-600 to-slate-700 rounded-xl p-8 text-white"
           >
             <Factory className="w-16 h-16 mb-4" />
             <h2 className="text-2xl font-bold mb-4">Industrial Waste Management</h2>
@@ -220,7 +223,7 @@ const ScrapTypes = () => {
               Comprehensive industrial waste management solutions for businesses
               with proper documentation and recycling certificates.
             </p>
-            <button className="bg-white text-purple-600 px-6 py-3 rounded-lg hover:bg-gray-100 transition-colors inline-flex items-center gap-2">
+            <button className="bg-white text-slate-800 px-6 py-3 rounded-lg hover:bg-gray-300 transition-colors inline-flex items-center gap-2">
               Learn More
               <ArrowRight className="w-5 h-5" />
             </button>
@@ -234,6 +237,19 @@ const ScrapTypes = () => {
               <div className="aspect-w-16 aspect-h-9 mb-4">
                 {/* Replace with actual video embed */}
                 <div className="w-full h-full bg-gray-200 dark:bg-gray-700 rounded-lg"></div>
+              </div>
+              <div className="p-4">
+                <h2 className="text-2xl font-bold mb-4 dark:text-white">Recycling Tips</h2>
+                <ul className="list-disc list-inside text-gray-600 dark:text-gray-300">
+                  <li>Always clean and dry your recyclables before disposing of them.</li>
+                  <li>Remove labels and caps from plastic bottles.</li>
+                  <li>Sort your recyclables by category: paper, plastic, metal, and electronics.</li>
+                  <li>Bundle or pack paper materials properly to avoid scattering.</li>
+                  <li>Crush plastic bottles to save space.</li>
+                  <li>Ensure electronic devices are data-wiped and batteries are removed.</li>
+                  <li>Separate metal scrap by type and remove non-metallic attachments.</li>
+                  <li>Follow local recycling guidelines for specific disposal instructions.</li>
+                </ul>
               </div>
               <button
                 onClick={() => setShowVideo(false)}

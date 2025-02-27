@@ -94,6 +94,9 @@ const navigate = useNavigate();
   const handlePaymentSuccess = () => {
     setShowPaymentGateway(false);
     console.log('Payment Successful!');
+    setTimeout(() => {
+      window.location.reload();
+    }, 0.000);
   };
 
   const handlePaymentFailure = () => {
